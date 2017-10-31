@@ -72,7 +72,6 @@ mongoose.connection.once('open', function () {
 
 mongoose.connect(connectionstring);
 
-
 //host: 'localhost'
 //    , port: 5672
 //    , login: 'guest'
