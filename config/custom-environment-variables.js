@@ -106,6 +106,10 @@ module.exports = {
         "dynamicconfigurl" : "SYS_DYNAMICCONFIGGENERATOR_HOST",
         "dynamicconfigport" : "SYS_DYNAMICCONFIGGENERATOR_PORT",
         "dynamicconfigversion" : "SYS_DYNAMICCONFIGGENERATOR_VERSION",
+	    
+	   "ruleserviceurl" : "SYS_RULESERVICE_HOST",
+    		"ruleserviceport" : "SYS_RULESERVICE_PORT",
+    		"ruleserviceversion" : "SYS_RULESERVICE_VERSION",
 
         "httprogrammingurl" : "SYS_HTTPROGRAMINGAPI_HOST",
         "httprogrammingport" : "SYS_HTTPROGRAMINGAPI_PORT",
