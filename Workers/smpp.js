@@ -32,9 +32,8 @@ session.on('connect', function(){
         interface_version: 1,
         system_type: system_type,
         address_range: address_range,
-        //380666000600
         addr_ton: 1,
-        addr_npi: 1,
+        addr_npi: 1
     }, function(pdu) {
         logger.info('pdu status', lookupPDUStatusKey(pdu.command_status));
         if (pdu.command_status == 0) {
@@ -152,6 +151,9 @@ session.on('pdu', function(pdu){
 
         // Reply to SMSC that we received and processed the SMS
         session.deliver_sm_resp({ sequence_number: pdu.sequence_number });
+    }
+    else if(pdu.command == 'enquire_link'){
+        session.enquire_link_resp({ sequence_number: pdu.sequence_number });
     }
 });
 

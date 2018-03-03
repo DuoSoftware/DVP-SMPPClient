@@ -65,12 +65,12 @@ module.exports = {
 
   "SMPPClient":{
 
-    "ip":"45.55.203.111",
+    "ip":"81.201.83.10",
         //"81.201.83.10",
-    "port":"2775",
-    "password":"pwd1",
+    "port":"2777",
+    "password":"Face@123",
 //"Veery@123",
-    "user":"smppclient1",
+    "user":"facetonesms",
 
     "system_type":"380666000600",
     "address_range": "380666000600"
