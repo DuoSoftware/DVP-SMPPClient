@@ -87,6 +87,10 @@ var sendSMPP = function(from, to, text, cb) {
         logger.info("text :" + text);
 
         session.submit_sm({
+            source_addr_ton: 1,
+            source_addr_npi: 1,
+            dest_addr_ton: 1,
+            dest_addr_npi: 1,
             source_addr: from,
             destination_addr: to,
             short_message: text
