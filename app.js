@@ -174,15 +174,30 @@ function SendSMPP(company, tenant, mailoptions, cb){
                         logger.debug("engagement created successfully");
                         if (mailoptions.reply_session) {
 
-                            CreateComment('sms', 'text', company, tenant, mailoptions.reply_session, mailoptions.author, result, function (done) {
-                                if (!done) {
-                                    logger.error("comment creation failed");
-                                    return cb(true);
+                            // CreateComment('sms', 'text', company, tenant, mailoptions.reply_session, mailoptions.author, result, function (done) {
+                            //     if (!done) {
+                            //         logger.error("comment creation failed");
+                            //         return cb(true);
+                            //     } else {
+                            //         logger.debug("comment created successfully");
+                            //         return cb(true);
+                            //     }
+                            // });
+
+
+                            UpdateComment(tenant, company, mailoptions.comment,result._id, function (done) {
+
+                                return cb(true);
+                                if (done) {
+                                    logger.info("Update Comment Completed ");
+
                                 } else {
-                                    logger.debug("comment created successfully");
-                                    return cb(true);
+
+                                    logger.error("Update Comment Failed ");
+
                                 }
                             });
+
                         }
                         else {
 
@@ -298,13 +313,19 @@ function SendSMS(message, deliveryInfo, ack) {
                 mailOptions.text = message;
 
 
+
                 SendSMPP(company, tenant, mailOptions, function (done) {
 
-                    if (!done)
-                        ack.acknowledge();
-                    //.reject(true);
+                    if (!done){
+
+                        logger.info("Send SMPP completed");
+
+                    }
                     else
-                        ack.acknowledge();
+                    {
+                        logger.info("Send SMPP failed");
+
+                    }
 
                 });
 
@@ -321,15 +342,20 @@ function SendSMS(message, deliveryInfo, ack) {
 
     }else {
 
+        ack.acknowledge();
+
         SendSMPP(company, tenant, mailOptions, function (done) {
 
-            if (!done)
-            //ack.reject(true);
-                ack.acknowledge();
+            if (!done){
+
+                logger.info("Send SMPP completed");
+
+            }
             else
-                ack.acknowledge();
+            {
+                logger.info("Send SMPP failed");
 
-
+            }
         });
     }
 
