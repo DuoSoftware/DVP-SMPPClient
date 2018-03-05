@@ -86,25 +86,30 @@ var sendSMPP = function(from, to, text, cb) {
         logger.info("to :" + to);
         logger.info("text :" + text);
 
-        session.submit_sm({
-            source_addr_ton: 1,
-            source_addr_npi: 1,
-            dest_addr_ton: 1,
-            dest_addr_npi: 1,
-            source_addr: from,
-            destination_addr: to,
-            short_message: text
-        }, function (pdu) {
-            logger.info('sms pdu status', lookupPDUStatusKey(pdu.command_status));
-            if (pdu.command_status == 0) {
-                // Message successfully sent
-                logger.info(pdu.message_id);
-                cb(true, pdu.message_id)
-            } else {
+        if(text && text.length < 160) {
+            session.submit_sm({
+                source_addr_ton: 1,
+                source_addr_npi: 1,
+                dest_addr_ton: 1,
+                dest_addr_npi: 1,
+                source_addr: from,
+                destination_addr: to,
+                short_message: text
+            }, function (pdu) {
+                logger.info('sms pdu status', lookupPDUStatusKey(pdu.command_status));
+                if (pdu.command_status == 0) {
+                    // Message successfully sent
+                    logger.info(pdu.message_id);
+                    cb(true, pdu.message_id)
+                } else {
 
-                cb(false);
-            }
-        });
+                    cb(false);
+                }
+            });
+        }else{
+
+            cb(false);
+        }
     }else{
 
         logger.error(util.format("Message send failed due to connection is closed from %s to %s text %s",from, to, text));
