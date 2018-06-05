@@ -3,12 +3,12 @@ module.exports = {
   "Redis":
   {
     "mode":"sentinel",//instance, cluster, sentinel
-    "ip": "45.55.142.207",
+    "ip": "",
     "port": 6389,
-    "user": "duo",
-    "password": "DuoS123",
+    "user": "",
+    "password": "",
     "sentinels":{
-      "hosts": "138.197.90.92,45.55.205.92,138.197.90.92",
+      "hosts": "",
       "port":16389,
       "name":"redis-cluster"
     }
@@ -18,13 +18,13 @@ module.exports = {
   "Security":
   {
 
-    "ip" : "45.55.142.207",
+    "ip" : "",
     "port": 6389,
-    "user": "duo",
-    "password": "DuoS123",
+    "user": "",
+    "password": "",
     "mode":"sentinel",//instance, cluster, sentinel
     "sentinels":{
-      "hosts": "138.197.90.92,45.55.205.92,138.197.90.92",
+      "hosts": "",
       "port":16389,
       "name":"redis-cluster"
     }
@@ -34,7 +34,7 @@ module.exports = {
   "Host":
   {
     "smsQueueName": "SMSOUT",
-    "smsNumber": "0710400400"
+    "smsNumber": ""
   },
 
 
@@ -42,7 +42,7 @@ module.exports = {
   "SMSServer":{
 
 
-    "ip":"159.203.109.43",
+    "ip":"",
     "port":"1401",
     "password":"bar",
     "user":"foo"
@@ -55,22 +55,22 @@ module.exports = {
 
   "Mongo":
   {
-    "ip":"104.236.231.11",
+    "ip":"",
     "port":"27017",
-    "dbname":"dvpdb",
-    "password":"DuoS123",
-    "user":"duo",
-    //"replicaset" :"104.236.231.11"
+    "dbname":"",
+    "password":"",
+    "user":"",
+   
   },
 
   "SMPPClient":{
 
-    "ip":"81.201.83.10",
-        //"81.201.83.10",
+    "ip":"",
+        
     "port":"2777",
-    "password":"Face@123",
-//"Veery@123",
-    "user":"facetonesms",
+    "password":"",
+
+    "user":"",
 
     "system_type":"380666000600",
     "address_range": "380666000600"
@@ -82,7 +82,7 @@ module.exports = {
 
   "LBServer" : {
 
-    "ip": "104.236.197.119",
+    "ip": "",
     "port": "4647"
 
   },
@@ -90,52 +90,52 @@ module.exports = {
 
   "RabbitMQ":
   {
-    "ip": "45.55.142.207",
+    "ip": "",
     "port": 5672,
-    "user": "admin",
-    "password": "admin",
+    "user": "",
+    "password": "",
     "vhost":'/'
   },
 
 
   "Services" : {
-    "accessToken":"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJzdWtpdGhhIiwianRpIjoiYWEzOGRmZWYtNDFhOC00MWUyLTgwMzktOTJjZTY0YjM4ZDFmIiwic3ViIjoiNTZhOWU3NTlmYjA3MTkwN2EwMDAwMDAxMjVkOWU4MGI1YzdjNGY5ODQ2NmY5MjExNzk2ZWJmNDMiLCJleHAiOjE5MDIzODExMTgsInRlbmFudCI6LTEsImNvbXBhbnkiOi0xLCJzY29wZSI6W3sicmVzb3VyY2UiOiJhbGwiLCJhY3Rpb25zIjoiYWxsIn1dLCJpYXQiOjE0NzAzODExMTh9.Gmlu00Uj66Fzts-w6qEwNUz46XYGzE8wHUhAJOFtiRo",
+    "accessToken":"",
 
-    "resourceServiceHost": "resourceservice.app.veery.cloud",
+    "resourceServiceHost": "",
     "resourceServicePort": "8831",
     "resourceServiceVersion": "1.0.0.0",
 
 
-    "interactionurl": "interactions.app.veery.cloud",
+    "interactionurl": "",
     "interactionport": '3637',
     "interactionversion":"1.0",
     //
 
 
-    "cronurl": "scheduleworker.app.veery.cloud",//scheduleworker.app.veery.cloud
+    "cronurl": "",
     "cronport": '8080',
     "cronversion":"1.0.0.0",
 
 
-    "ticketServiceHost": "liteticket.app.veery.cloud", //liteticket.app.veery.cloud
+    "ticketServiceHost": "", 
     "ticketServicePort": "3636",
     "ticketServiceVersion": "1.0.0.0",
 
-    "ardsServiceHost": "ardsliteservice.app.veery.cloud",
+    "ardsServiceHost": "",
     "ardsServicePort": "8831",
     "ardsServiceVersion": "1.0.0.0",
 
 
-    "ruleserviceurl" : "ruleservice.app.veery.cloud",
+    "ruleserviceurl" : "",
     "ruleserviceport" : "8888",
     "ruleserviceversion" : "1.0.0.0",
 
-    "dynamicconfigurl" : "dynamicconfigurationgenerator.app.veery.cloud",
+    "dynamicconfigurl" : "",
     "dynamicconfigport" : "8888",
     "dynamicconfigversion" : "1.0.0.0",
 
     "httprogrammingurl" : "127.0.0.1",
-        //"httpprogrammingapi.app.veery.cloud",
+        
     "httprogrammingport" : "8086",
     "httprogrammingversion" : "1.0.0.0"
 
