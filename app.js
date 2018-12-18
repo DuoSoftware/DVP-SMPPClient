@@ -8,7 +8,7 @@ var logger = require('dvp-common/LogHandler/CommonLogHandler.js').logger;
 var request = require('request');
 var format = require("stringformat");
 var util = require("util");
-var mongoose = require('mongoose');
+var mongoose = require('mongoose')
 var CreateEngagement = require('dvp-common/ServiceAccess/common').CreateEngagement;
 var CreateComment = require('dvp-common/ServiceAccess/common').CreateComment;
 var CreateTicket = require('dvp-common/ServiceAccess/common').CreateTicket;
@@ -20,6 +20,10 @@ var Render = require('dvp-common/TemplateGenerator/template.js').Render;
 //var queueHost = format('amqp://{0}:{1}@{2}:{3}',config.RabbitMQ.user,config.RabbitMQ.password,config.RabbitMQ.ip,config.RabbitMQ.port);
 var queueName = config.Host.smsQueueName;
 var smpp = require('./Workers/smpp');
+var http = require('./Workers/http');
+
+var smsmethod = config.Host.method || "smpp";
+//var mongomodels = require('dvp-mongomodels');
 
 
 var mongoip = config.Mongo.ip;
@@ -159,7 +163,14 @@ function SendSMPP(company, tenant, mailoptions, cb){
 
     logger.info("Send SMS started .....");
 
-    smpp.SendSMPP(mailoptions.from, mailoptions.to, mailoptions.text, function (_isDone, id) {
+
+    smsOperation = smpp.SendSMPP;
+    if(smsmethod === 'http'){
+        smsOperation = http.sendHTTP;
+
+    }
+
+    smsOperation(mailoptions.from, mailoptions.to, mailoptions.text, function (_isDone, id) {
 
         try {
 
@@ -312,11 +323,10 @@ function SendSMS(message, deliveryInfo, ack) {
 
                 mailOptions.text = message;
 
-
-
+                ack.acknowledge();
                 SendSMPP(company, tenant, mailOptions, function (done) {
 
-                    if (!done){
+                    if (done === true){
 
                         logger.info("Send SMPP completed");
 
@@ -346,7 +356,7 @@ function SendSMS(message, deliveryInfo, ack) {
 
         SendSMPP(company, tenant, mailOptions, function (done) {
 
-            if (!done){
+            if (done === true){
 
                 logger.info("Send SMPP completed");
 
