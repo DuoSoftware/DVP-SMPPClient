@@ -34,7 +34,8 @@ module.exports = {
   "Host":
   {
     "smsQueueName": "SMSOUT",
-    "smsNumber": "0710400400"
+    "smsNumber": "0710400400",
+    "method": "http"
   },
 
 
@@ -77,6 +78,15 @@ module.exports = {
 //"veerysms"
 
   },
+  
+   "HTTPClient":{
+
+        "URL": "https://cpsolutions.dialog.lk/index.php/cbs/sms/send?destination=94{to}&q={token}&message={text}",
+        "Method": "GET",
+        "token":"14181869886758"
+
+
+    },
 
 
 
