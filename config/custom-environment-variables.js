@@ -58,11 +58,22 @@ module.exports = {
 
     },
 
+    "HTTPClient":{
+
+        "URL": "SYS_SMS_HTTP_HOST",
+        "Method": "SYS_SMS_HTTP_METHOD",
+        "token":"SYS_SMS_HTTP_TOKEN"
+
+
+    },
+
+
 
     "Host":
     {
         "smsQueueName": "SMS_QUEUE_NAME",
-		"smsNumber": "SMS_NUMBER"
+		"smsNumber": "SMS_NUMBER",
+        "method": "SMS_METHOD"
     },
 
     "Mongo":
