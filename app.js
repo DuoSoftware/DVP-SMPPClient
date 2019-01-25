@@ -9,6 +9,7 @@ var request = require('request');
 var format = require("stringformat");
 var util = require("util");
 var mongoose = require('mongoose')
+var mongomodels = require('dvp-mongomodels');
 var CreateEngagement = require('dvp-common/ServiceAccess/common').CreateEngagement;
 var CreateComment = require('dvp-common/ServiceAccess/common').CreateComment;
 var CreateTicket = require('dvp-common/ServiceAccess/common').CreateTicket;
@@ -132,6 +133,8 @@ queueConnection.on('ready', function () {
 
                         message.from = result.ANI;
                     }
+
+                    //messgae.from = 'COMBANK';
 
                     if(result && result.DNIS){
                         message.to = result.DNIS;

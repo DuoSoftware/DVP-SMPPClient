@@ -34,8 +34,9 @@ module.exports = {
     "Host":
         {
             "smsQueueName": "SMSOUT",
-            "smsNumber": "0710400400",
-            "method": "http"
+            "smsNumber": "COMBANK",
+            // /"smsNumber": "0710400400",ANK
+            "method": "smpp"
         },
 
 
@@ -64,16 +65,32 @@ module.exports = {
             //"replicaset" :"104.236.231.11"
         },
 
+//     "SMPPClient":{
+//
+//         "ip":"81.201.83.10",
+//         //"81.201.83.10",
+//         "port":"2777",
+//         "password":"Face@123",
+// //"Veery@123",
+//         "user":"facetonesms",
+//
+//         "system_type":"380666000600",
+//         "address_range": "380666000600"
+// //"veerysms"
+//
+//     },
+
+
     "SMPPClient":{
 
-        "ip":"81.201.83.10",
+        "ip":"220.247.223.51",
         //"81.201.83.10",
-        "port":"2777",
-        "password":"Face@123",
+        "port":"2775",
+        "password":"G9R5T!1",
 //"Veery@123",
-        "user":"facetonesms",
+        "user":"combanksmpp",
 
-        "system_type":"380666000600",
+        "system_type":"MNO",
         "address_range": "380666000600"
 //"veerysms"
 
@@ -82,7 +99,7 @@ module.exports = {
 //&from={from}
     "HTTPClient":{
 
-        "URL": "https://xxxxxxxxx/index.php/cbs/sms/send?destination=94{to}&q={token}&message={text}",
+        "URL": "https://cpsolutions.dialog.lk/index.php/cbs/sms/send?destination=94{to}&q={token}&message={text}",
         "Method": "GET",
         "token":"14181869886758"
 
