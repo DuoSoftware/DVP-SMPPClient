@@ -86,9 +86,9 @@ module.exports = {
         "ip":"220.247.223.51",
         //"81.201.83.10",
         "port":"2775",
-        "password":"G9R5T!1",
+        "password":"",
 //"Veery@123",
-        "user":"combanksmpp",
+        "user":"",
 
         "system_type":"MNO",
         "address_range": "380666000600"
