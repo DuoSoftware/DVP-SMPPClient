@@ -7,6 +7,8 @@ var logger = require('dvp-common/LogHandler/CommonLogHandler.js').logger;
 var CallDynamicConfigRouting = require('dvp-common/ServiceAccess/common').CallDynamicConfigRouting;
 var CallHttProgrammingAPI = require('dvp-common/ServiceAccess/common').CallHttProgrammingAPI;
 var util = require("util");
+var SMSDetailReport = require('dvp-mongomodels/model/SMSDetailRecord').SMSDetailRecord;
+var uuidv4 = require('uuid/v4');
 
 var smpphost = config.SMPPClient.ip;
 var smppport = config.SMPPClient.port;
@@ -76,6 +78,9 @@ function connectSMPP() {
 
 var sendSMPP = function(from, to, text, cb) {
 
+
+    var id = uuidv4();
+
     if(isConnected) {
 
         from = from.toString();
@@ -86,8 +91,10 @@ var sendSMPP = function(from, to, text, cb) {
         logger.info("to :" + to);
         logger.info("text :" + text);
 
+
         if(text && text.length < 160) {
             session.submit_sm({
+                registered_delivery: 1,
                 source_addr_ton: 1,
                 source_addr_npi: 1,
                 dest_addr_ton: 1,
@@ -97,14 +104,42 @@ var sendSMPP = function(from, to, text, cb) {
                 short_message: text
             }, function (pdu) {
                 logger.info('sms pdu status', lookupPDUStatusKey(pdu.command_status));
-                if (pdu.command_status == 0) {
-                    // Message successfully sent
-                    logger.info(pdu.message_id);
-                    cb(true, pdu.message_id)
-                } else {
 
+
+                var record = SMSDetailReport({
+                    created_at: Date.now(),
+                    updated_at: Date.now(),
+                    _id: id,
+                    message_id: '',
+                    source_addr: from,
+                    destination_addr: to,
+                    message: text,
+                    status: 'send'
+
+                });
+
+                if (pdu.command_status == 0) {
+                    logger.info(pdu.message_id);
+                    record.message_id = pdu.message_id;
+                    cb(true, id)
+                } else {
                     cb(false);
                 }
+
+                record.save(function (err, rec) {
+                    if (err) {
+                        logger.error("Message save failed due to Error",err);
+                    } else {
+                        if (rec) {
+
+                            logger.info("Message save successful !!!!");
+                        }
+                        else {
+                            logger.info("Message save failed !!!!");
+                        }
+                    }
+                });
+
             });
         }else{
 
@@ -119,44 +154,74 @@ var sendSMPP = function(from, to, text, cb) {
 }
 
 
+
 session.on('pdu', function(pdu){
 
     // incoming SMS from SMSC
     logger.info(pdu);
     if (pdu.command == 'deliver_sm') {
 
-        // no '+' here
-        var fromNumber = pdu.source_addr.toString();
-        var toNumber = pdu.destination_addr.toString();
+        if(pdu.esm_class == 4) {
 
-        var text = '';
-        if (pdu.short_message && pdu.short_message.message) {
-            text = pdu.short_message.message;
-        }
 
-        logger.info("SMS " + fromNumber + " -> " + toNumber + ": " + text);
+            SMSDetailReport.findOneAndUpdate(
+                {message_id: pdu.receipted_message_id},
+                {status: 'delivered', updated_at: Date.now()},
+                function (err, record) {
+                    if (err) {
+                        logger.error("Message update failed due to Error",err);
+                    } else {
+                        if (record) {
 
-        //////////////////call dynamic config and route to the httapi//////////////////////////////////////////
-
-        CallDynamicConfigRouting(fromNumber, toNumber,text,'inbound',function(isDone, reqId){
-            if(isDone){
-
-                CallHttProgrammingAPI(fromNumber, toNumber, text, reqId, function(isDone){
-                    if(isDone){
-
-                        logger.info("SMS proceed successfully");
-
-                    }else{
-                        logger.error("Call HTTProgrammingAPI success");
+                            logger.info("Message update successful !!!!");
+                        }
+                        else {
+                            logger.info("Message update failed !!!!");
+                        }
                     }
-                })
 
-            }else{
 
-                logger.error("Call Dynamic configuration routing failed");
+
+            });
+
+        }else{
+
+            // no '+' here
+            var fromNumber = pdu.source_addr.toString();
+            var toNumber = pdu.destination_addr.toString();
+
+            var text = '';
+            if (pdu.short_message && pdu.short_message.message) {
+                text = pdu.short_message.message;
             }
 
-        });
+            logger.info("SMS " + fromNumber + " -> " + toNumber + ": " + text);
+
+            //////////////////call dynamic config and route to the httapi//////////////////////////////////////////
+
+            CallDynamicConfigRouting(fromNumber, toNumber, text, 'inbound', function (isDone, reqId) {
+                if (isDone) {
+
+                    CallHttProgrammingAPI(fromNumber, toNumber, text, reqId, function (isDone) {
+                        if (isDone) {
+
+                            logger.info("SMS proceed successfully");
+
+                        } else {
+                            logger.error("Call HTTProgrammingAPI success");
+                        }
+                    })
+
+                } else {
+
+                    logger.error("Call Dynamic configuration routing failed");
+
+                }
+
+
+            });
+
+        }
 
         // Reply to SMSC that we received and processed the SMS
         session.deliver_sm_resp({ sequence_number: pdu.sequence_number });
