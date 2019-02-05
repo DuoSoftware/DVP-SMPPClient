@@ -173,7 +173,7 @@ function SendSMPP(company, tenant, mailoptions, cb){
 
     }
 
-    smsOperation(mailoptions.from, mailoptions.to, mailoptions.text, function (_isDone, id) {
+    smsOperation(tenant, company, mailoptions.from, mailoptions.to, mailoptions.text, function (_isDone, id) {
 
         try {
 
