@@ -76,7 +76,7 @@ function connectSMPP() {
     session.connect();
 }
 
-var sendSMPP = function(from, to, text, cb) {
+var sendSMPP = function(tenant, company, from, to, text, cb) {
 
 
     var id = uuidv4();
@@ -107,6 +107,8 @@ var sendSMPP = function(from, to, text, cb) {
 
 
                 var record = SMSDetailReport({
+                    tenant: tenant,
+                    company: company,
                     created_at: Date.now(),
                     updated_at: Date.now(),
                     _id: id,
