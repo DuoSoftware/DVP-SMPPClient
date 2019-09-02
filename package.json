@@ -21,7 +21,7 @@
     "amqplib": "^0.5.1",
     "config": "^1.25.1",
     "dvp-common": "^1.5.2",
-    "dvp-mongomodels": "^5.2.16",
+    "dvp-mongomodels": "^5.3.24",
     "mongoose": "^4.10.6",
     "node-uuid": "^1.4.8",
     "request": "^2.88.0",

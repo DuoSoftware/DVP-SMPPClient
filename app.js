@@ -173,7 +173,7 @@ function SendSMPP(company, tenant, mailoptions, cb){
 
     }
 
-    smsOperation(tenant, company, mailoptions.from, mailoptions.to, mailoptions.text, function (_isDone, id) {
+    smsOperation(tenant, company, mailoptions.from, mailoptions.to, mailoptions.text, mailoptions.author, function (_isDone, id) {
 
         try {
 
@@ -183,7 +183,7 @@ function SendSMPP(company, tenant, mailoptions, cb){
 
                 //channel, company, tenant, from, to, direction, session, data, user,channel_id,contact,  cb
 
-                CreateEngagement('sms', company, tenant, mailoptions.from, mailoptions.to, 'outbound', id, mailoptions.text, undefined, undefined, undefined, function (done, result) {
+                CreateEngagement('sms', company, tenant, mailoptions.from, mailoptions.to, 'outbound', id, mailoptions.text, mailoptions.author, undefined, undefined, function (done, result) {
                     if (done) {
                         logger.debug("engagement created successfully");
                         if (mailoptions.reply_session) {

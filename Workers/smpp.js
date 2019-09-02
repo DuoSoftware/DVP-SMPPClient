@@ -76,7 +76,7 @@ function connectSMPP() {
     session.connect();
 }
 
-var sendSMPP = function(tenant, company, from, to, text, cb) {
+var sendSMPP = function(tenant, company, from, to, text, author, cb) {
 
 
     var id = uuidv4();
@@ -115,6 +115,7 @@ var sendSMPP = function(tenant, company, from, to, text, cb) {
                     message_id: '',
                     source_addr: from,
                     destination_addr: to,
+                    author: author,
                     message: text,
                     status: 'send'
 

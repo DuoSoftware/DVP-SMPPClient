@@ -12,7 +12,7 @@ var httpMethod = config.HTTPClient.Method;
 var token = config.HTTPClient.token;
 
 
-var sendHTTP = function(tenant, company, from, to, text, cb) {
+var sendHTTP = function(tenant, company, from, to, text, author,cb) {
 
     var message = {
         from: from,
